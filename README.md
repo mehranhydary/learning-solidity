@@ -5,7 +5,7 @@
 ### Goals
 
 1. Understand Uniswap V2 Core and Periphery
-2. Understand Curve
+2. Understand Aave Flashloans
 3. Understand Uniswap V3 Core and Periphery
 
 ### Getting Started
