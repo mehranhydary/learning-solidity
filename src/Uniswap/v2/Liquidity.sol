@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.17;
 
 import {IERC20} from 'v2-periphery/interfaces/IERC20.sol';
 import {IUniswapV2Router02} from "v2-periphery/interfaces/IUniswapV2Router02.sol";

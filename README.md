@@ -16,9 +16,9 @@ These instructions only work if you already have Foundry installed. See [here](h
 
 1. Create an .env file
 
-In this .env file, add a variable called ETH_RPC_URL and set it equal to your RPC end point. You can get an RPC end point from Alchemy or Infura.
+In this .env file, add a variable called ETH_RPC_URL and set it equal to your RPC endpoint. You can get an RPC endpoint from [Alchemy](https://alchemy.com/) or [Infura](https://infura.io).
 
-Once the file is set, run `source .env` in your terminal.
+Once the file is ready, run `source .env` in your terminal.
 
 2. Run anvil
 
