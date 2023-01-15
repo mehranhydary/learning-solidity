@@ -1,10 +1,12 @@
-# <h1 align="center"> Learning Decentralized Finance</h1>
+# <h1 align="center"> Learning Solidity through Decentralized Finance</h1>
 
-**This code explores how to use Uniswap, Curve, etc. with Foundry.**
+**This code will explore to use Uniswap, Curve, etc. with Foundry.**
 
 ### Goals
 
 1. Understand Uniswap V2 Core and Periphery
+2. Understand Curve
+3. Understand Uniswap V3 Core and Periphery
 
 ### Getting Started
 
