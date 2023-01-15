@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-import {IERC20, Uniswap} from "v2-core/interfaces/";
+import {IERC20} from "v2-periphery/interfaces/IERC20.sol";
+import {IUniswapV2Router02} from "v2-periphery/interfaces/IUniswapV2Router02.sol";
 
 contract Swap {
   address private constant UNISWAP_V2_ROUTER = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
@@ -16,5 +17,19 @@ contract Swap {
   ) external {
     IERC20(_tokenIn).transferFrom(msg.sender, address(this), _amountIn);
     IERC20(_tokenIn).approve(UNISWAP_V2_ROUTER, _amountIn);
+
+    address[] memory path;
+    path = new address[](3);
+    path[0] = _tokenIn;
+    path[1] = WETH;
+    path[2] = _tokenOut;
+
+    IUniswapV2Router02(UNISWAP_V2_ROUTER).swapExactTokensForTokensSupportingFeeOnTransferTokens(
+      _amountIn,
+      _amountOutMin,
+      path,
+      _to,
+      block.timestamp
+    );
   }
 }
