@@ -1,13 +1,17 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity ^0.8;
 
-import {SafeMath} from "openzeppelin-contracts/math/SafeMath.sol";
-import {FlashLoanReceiverBase} from "protocol-v2/flashloan/base/FlashLoanReceiverBase.sol";
+import {SafeMath} from "openzeppelin-contracts/utils/math/SafeMath.sol";
+import {IERC20} from "openzeppelin-contracts/token/ERC20/IERC20.sol";
+import {FlashLoanReceiverBase} from "aave-v3-core/flashloan/base/FlashLoanReceiverBase.sol";
+import {IPoolAddressesProvider} from "aave-v3-core/interfaces/IPoolAddressesProvider.sol";
 
 contract FlashLoan is FlashLoanReceiverBase {
   using SafeMath for uint;
 
-  constructor(ILendingPoolAddressesProvider _addressProvider)
+  event Log(string, uint);
+
+  constructor(IPoolAddressesProvider _addressProvider)
     public
     FlashLoanReceiverBase(_addressProvider)
   {}
@@ -17,7 +21,10 @@ contract FlashLoan is FlashLoanReceiverBase {
     require(balance > amount, "Balance should be higher than amount");
     address receiver = address(this);
 
-    address[] memory amounts = new uint[](1);
+    address[] memory assets = new address[](1);
+    assets[0] = asset;
+
+    uint[] memory amounts = new uint[](1);
     amounts[0] = amount;
     // 0 = no debt, 1 = stable, 2 = variable
     // 0 = pay all loans 
@@ -29,7 +36,7 @@ contract FlashLoan is FlashLoanReceiverBase {
     bytes memory params = ""; // extra data to pass abi.encode(...)
     uint16 referralCode = 0;
 
-    LENDING_POOL.flashLoan(
+    POOL.flashLoan(
       receiver,
       assets,
       amounts,
@@ -54,7 +61,7 @@ contract FlashLoan is FlashLoanReceiverBase {
       emit Log("fee", premiums[i]);
 
       uint amountOwning = amounts[i].add(premiums[i]);
-      IERC20(assets[i]).approve(address(LENDING_POOL), amountOwning);
+      IERC20(assets[i]).approve(address(POOL), amountOwning);
     }
     return true;
   }
