@@ -42,8 +42,6 @@ contract LiquidityTest is Test {
         address tokenA = DAI;
         address tokenB = Y4;
         vm.startPrank(whale);
-        uint tokenABalance = IERC20(tokenA).balanceOf(address(whale));
-        uint tokenBBalance = IERC20(tokenB).balanceOf(address(whale));
         IERC20(tokenA).approve(address(l), amountA);
         IERC20(tokenB).approve(address(l), amountB);
         l.addLiquidity(
@@ -59,12 +57,24 @@ contract LiquidityTest is Test {
     }
 
     function testRemoveLiquidity() public {
-      address pair = IUniswapV2Factory(UNISWAP_V2_FACTORY).getPair(tokenA, tokenB);
-      uint liquidityBefore = IERC20(pair).balanceOf(address(l));
+      uint amountA = 5000 * 10 ** 18;
+      uint amountB = 5000 * 10 ** 18;
       address tokenA = DAI;
       address tokenB = Y4;
+      vm.startPrank(whale);
+      IERC20(tokenA).approve(address(l), amountA);
+      IERC20(tokenB).approve(address(l), amountB);
+      l.addLiquidity(
+        tokenA,
+        tokenB,
+        amountA,
+        amountB
+      );
+      address pair = IUniswapV2Factory(UNISWAP_V2_FACTORY).getPair(tokenA, tokenB);
+      uint liquidityBefore = IERC20(pair).balanceOf(address(l));
       l.removeLiquidity(tokenA, tokenB);
       uint liquidityAfter = IERC20(pair).balanceOf(address(l));
       assert(liquidityBefore > liquidityAfter);
+      vm.stopPrank();
     }
 }
