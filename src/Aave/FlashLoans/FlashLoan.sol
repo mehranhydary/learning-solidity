@@ -2,12 +2,12 @@
 pragma solidity ^0.8.17;
 
 import {SafeMath} from "openzeppelin-contracts/math/SafeMath.sol";
-import {FlashLoanReceiverBase} from "aave-v3-core/flashloan/base/FlashLoanReceiverBase.sol";
+import {FlashLoanReceiverBase} from "protocol-v2/flashloan/base/FlashLoanReceiverBase.sol";
 
 contract FlashLoan is FlashLoanReceiverBase {
   using SafeMath for uint;
 
-  constructor(IPoolAddressesProvider _addressProvider)
+  constructor(ILendingPoolAddressesProvider _addressProvider)
     public
     FlashLoanReceiverBase(_addressProvider)
   {}
@@ -29,7 +29,7 @@ contract FlashLoan is FlashLoanReceiverBase {
     bytes memory params = ""; // extra data to pass abi.encode(...)
     uint16 referralCode = 0;
 
-    POOL.flashLoan(
+    LENDING_POOL.flashLoan(
       receiver,
       assets,
       amounts,
@@ -54,7 +54,7 @@ contract FlashLoan is FlashLoanReceiverBase {
       emit Log("fee", premiums[i]);
 
       uint amountOwning = amounts[i].add(premiums[i]);
-      IERC20(assets[i]).approve(address(POOL), amountOwning);
+      IERC20(assets[i]).approve(address(LENDING_POOL), amountOwning);
     }
     return true;
   }
