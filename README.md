@@ -10,19 +10,37 @@
 
 #### Use Foundry:
 
-Note: Add information about running anvil, running a forked version of mainnet using anvil, and then how you can use anvil with the forge testing framework.
+These instructions only work if you already have Foundry installed. See [here](https://github.com/foundry-rs/foundry) for more information.
+
+1. Create an .env file
+
+In this .env file, add a variable called ETH_RPC_URL and set it equal to your RPC end point. You can get an RPC end point from Alchemy or Infura.
+
+Once the file is set, run `source .env` in your terminal.
+
+2. Run anvil
+
+Anvil is a local Ethereum node. Since we are working with DeFi contracts, a lot of the contracts we will be working with are already deployed to mainnet. Instead of redeploying them, we will use our RPC endpoint and Anvil to create a forked version of the main Ethereum network on our local node.
+
+Run `anvil --fork-url $ETH_RPC_URL` in your terminal to start a local node that is a fork of the main Ethereum network. This node will be running on `http://localhost:8545`.
+
+3. Use Foundry
+
+To start working with the code in this repository, open a new terminal and run the following code.
 
 ```bash
-forge install
-forge test
+forge install # Only have to do this once
+forge test --fork-url http://localhost:8545 # Run this every time you want to test your new code
 ```
+
+This code will install all of the dependencies and then run the tests in this repository.
 
 ### Features
 
--   Write / run tests with either Hardhat or Foundry:
+-   Write / run tests with Foundry:
 
 ```bash
-forge test
+forge test --fork-url http://localhost:8545
 ```
 
 -   Install libraries with Foundry.
