@@ -7,7 +7,7 @@ import "forge-std/Test.sol";
 import "../../../src/Uniswap/v2/Swap.sol";
 import {IERC20} from "v2-periphery/interfaces/IERC20.sol";
 
-contract UniswapTest is Test {
+contract SwapTest is Test {
     Swap s;
     address DAI = 0x6B175474E89094C44Da98b954EedeAC495271d0F; // 18 decimals
     address DAI_WHALE = 0x82810e81CAD10B8032D39758C8DBa3bA47Ad7092; // Has 15m DAI as of 1/14/23
@@ -40,7 +40,7 @@ contract UniswapTest is Test {
         address tokenIn = DAI;
         address tokenOut = WBTC;
         vm.startPrank(whale);
-        uint tokenOutBalance = IERC20(tokenOut).balanceOf(msg.sender);
+        uint tokenOutBalance = IERC20(tokenOut).balanceOf(whale);
         IERC20(tokenIn).approve(address(s), amountIn);
         s.swap(
             tokenIn,
@@ -50,5 +50,6 @@ contract UniswapTest is Test {
             whale
         );
         assert(IERC20(tokenOut).balanceOf(whale) > tokenOutBalance);
+        vm.stopPrank();
     }
 }

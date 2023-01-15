@@ -1,10 +1,10 @@
 # <h1 align="center"> Learning Decentralized Finance</h1>
 
-**In this repository, I will be working with contracts from Uniswap, Curve, etc. to get a deeper understanding of how their protocols work. This repository will only use Foundry.**
+**This code explores how to use Uniswap, Curve, etc. with Foundry.**
 
 ### Goals
 
-1. Understand Uniswap V2 Core
+1. Understand Uniswap V2 Core and Periphery
 
 ### Getting Started
 
