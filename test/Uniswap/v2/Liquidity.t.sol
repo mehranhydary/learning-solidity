@@ -55,6 +55,16 @@ contract LiquidityTest is Test {
         address pair = IUniswapV2Factory(UNISWAP_V2_FACTORY).getPair(tokenA, tokenB);
         uint liquidity = IERC20(pair).balanceOf(address(l));
         assert(liquidity > 0);
-        // vm.stopPrank();
+        vm.stopPrank();
+    }
+
+    function testRemoveLiquidity() public {
+      address pair = IUniswapV2Factory(UNISWAP_V2_FACTORY).getPair(tokenA, tokenB);
+      uint liquidityBefore = IERC20(pair).balanceOf(address(l));
+      address tokenA = DAI;
+      address tokenB = Y4;
+      l.removeLiquidity(tokenA, tokenB);
+      uint liquidityAfter = IERC20(pair).balanceOf(address(l));
+      assert(liquidityBefore > liquidityAfter);
     }
 }
